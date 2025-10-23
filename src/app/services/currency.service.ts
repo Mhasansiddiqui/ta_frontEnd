@@ -27,12 +27,6 @@ export class CurrencyService {
     );
   }
 
-  getHistoricalRate(date: string, baseCurrency: string): Observable<{ data: { [key: string]: number } }> {
-    return this.http.get<{ data: { [key: string]: number } }>(
-      `${this.API_URL}/historical?date=${date}&base_currency=${baseCurrency}`
-    );
-  }
-
   private loadHistory(): ConversionHistory[] {
     const history = localStorage.getItem(this.STORAGE_KEY);
     return history ? JSON.parse(history) : [];

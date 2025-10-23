@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -29,8 +28,6 @@ import { CurrencyService } from '../services/currency.service';
     MatSelectModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatListModule,
     MatDividerModule,
     MatSnackBarModule
@@ -54,8 +51,7 @@ export class ConverterComponent implements OnInit {
     this.converterForm = this.fb.group({
       amount: ['', [Validators.required, Validators.min(0)]],
       fromCurrency: ['', Validators.required],
-      toCurrency: ['', Validators.required],
-      historicalDate: [null]
+      toCurrency: ['', Validators.required]
     });
   }
 
@@ -90,16 +86,9 @@ export class ConverterComponent implements OnInit {
 
     this.loading = true;
     this.result = null; // Reset previous result
-    const { amount, fromCurrency, toCurrency, historicalDate } = this.converterForm.value;
+    const { amount, fromCurrency, toCurrency } = this.converterForm.value;
 
-    const getRates$ = historicalDate
-      ? this.currencyService.getHistoricalRate(
-          this.formatDate(historicalDate),
-          fromCurrency
-        )
-      : this.currencyService.getLatestRates(fromCurrency);
-
-    getRates$.pipe(
+    this.currencyService.getLatestRates(fromCurrency).pipe(
       map(response => response.data)
     ).subscribe({
         next: (rates) => {
@@ -119,8 +108,7 @@ export class ConverterComponent implements OnInit {
             toCurrency,
             amount,
             result: this.result,
-            date: new Date().toISOString(),
-            historicalDate: historicalDate ? this.formatDate(historicalDate) : undefined
+            date: new Date().toISOString()
           });
           
           // Force change detection
@@ -139,10 +127,6 @@ export class ConverterComponent implements OnInit {
       });
     }
   
-
-  private formatDate(date: Date): string {
-    return date.toISOString().split('T')[0];
-  }
 
   private showError(message: string) {
     this.snackBar.open(message, 'Close', {

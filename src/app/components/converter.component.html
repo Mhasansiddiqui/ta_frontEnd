@@ -32,14 +32,6 @@
           </mat-select>
         </mat-form-field>
 
-        <!-- Historical Date -->
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Historical Date (Optional)</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="historicalDate">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
         <!-- Submit Button -->
         <button mat-raised-button color="primary" type="submit" class="full-width"
                 [disabled]="!converterForm.valid || loading">
@@ -77,11 +69,6 @@
               <span>{{ conversion.amount }} {{ conversion.fromCurrency }} to {{ conversion.toCurrency }}</span>
               <span>= {{ conversion.result }}</span>
               <span class="history-date">{{ conversion.date | date:'short' }}</span>
-              @if (conversion.historicalDate) {
-                <span class="historical-date">
-                  (Historical: {{ conversion.historicalDate | date:'shortDate' }})
-                </span>
-              }
             </div>
           </mat-list-item>
           <mat-divider></mat-divider>

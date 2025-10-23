@@ -23,5 +23,4 @@ export interface ConversionHistory {
   amount: number;
   result: number;
   date: string;
-  historicalDate?: string;
 }
