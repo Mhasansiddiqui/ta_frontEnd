@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Currency, ConversionHistory } from '../interfaces/currency.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrencyService {
-  private readonly API_URL = 'http://localhost:3001/api/currency';
+  private readonly API_URL = environment.apiUrl + '/api/currency';
   private readonly STORAGE_KEY = 'conversionHistory';
   private historySubject = new BehaviorSubject<ConversionHistory[]>(this.loadHistory());
 
