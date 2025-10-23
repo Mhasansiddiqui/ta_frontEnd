@@ -1,18 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Currency, ConversionHistory } from '../interfaces/currency.interface';
-import { environment } from '../../environments/environment';
+import { ENV } from '../app.environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrencyService {
-  private readonly API_URL = environment.apiUrl + '/api/currency';
+  private readonly API_URL: string;
   private readonly STORAGE_KEY = 'conversionHistory';
   private historySubject = new BehaviorSubject<ConversionHistory[]>(this.loadHistory());
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(ENV) private environment: { apiUrl: string }
+  ) {
+    this.API_URL = this.environment.apiUrl + '/api/currency';
+  }
 
   getCurrencies(): Observable<{ data: { [key: string]: Currency } }> {
     console.log('Making API request to:', `${this.API_URL}/currencies`);
