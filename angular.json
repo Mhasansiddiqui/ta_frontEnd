@@ -45,7 +45,7 @@
                 }
               ],
               "outputHashing": "all",
-              "ssr": true
+              "ssr": false
             },
             "development": {
               "optimization": false,
