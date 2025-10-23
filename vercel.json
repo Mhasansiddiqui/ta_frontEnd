@@ -4,6 +4,9 @@
   "installCommand": "npm install",
   "outputDirectory": "dist/frontend/browser",
   "public": true,
+  "env": {
+    "API_URL": "https://respectful-reflection-production.up.railway.app"
+  },
   "headers": [
     {
       "source": "/(.*)\\.js",

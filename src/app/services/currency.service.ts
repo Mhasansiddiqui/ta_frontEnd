@@ -15,6 +15,7 @@ export class CurrencyService {
   constructor(private http: HttpClient) {}
 
   getCurrencies(): Observable<{ data: { [key: string]: Currency } }> {
+    console.log('Making API request to:', `${this.API_URL}/currencies`);
     return this.http.get<{ data: { [key: string]: Currency } }>(
       `${this.API_URL}/currencies`
     );
